@@ -319,7 +319,25 @@ void autonomous_skills () {
   intake_upper.move(0);
 }
 
-
+void swing_auton(){
+  intake_upper.move(127);
+  chassis.pid_swing_set(ez::RIGHT_SWING, 45_deg, SWING_SPEED, 60);
+  chassis.pid_wait_quick_chain();
+  chassis.pid_drive_set(15_in, DRIVE_SPEED);
+  chassis.pid_wait_quick_chain();
+  intake_upper.move(0);
+  chassis.pid_turn_set(90_deg, TURN_SPEED);
+  chassis.pid_wait_quick_chain();
+  chassis.pid_drive_set(15_in, DRIVE_SPEED);
+  chassis.pid_wait_quick_chain();
+  intake_upper.move(127);
+// i made it go backwards and forwards to make sure it intakes the blocks
+  chassis.pid_drive_set(4_in, DRIVE_SPEED);
+  chassis.pid_wait_quick_chain();
+  chassis.pid_drive_set(-4_in, DRIVE_SPEED);
+  chassis.pid_wait_quick_chain();
+  intake_upper.move(0);
+}
 
 void drive_example(){
   // The first parameter is target inches

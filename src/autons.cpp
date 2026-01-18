@@ -186,9 +186,60 @@ void autonomous_left(){
   intake_upper.move(0);
 }
 
-  
+void right_solo_awp () {
+  // start sideways above goal, edge of middle tile
+  //drive forward and turn towards match loader
+  chassis.pid_drive_set(48_in, DRIVE_SPEED);
+  chassis.pid_wait();
+  chassis.pid_turn_set(90_deg, TURN_SPEED);
+  chassis.pid_wait_quick_chain();
+  //drive forward and match load
+  bottom.move(127);
+  loader.set(true);
+  chassis.pid_drive_set(20_in, DRIVE_SPEED);
+  pros::delay(1000);
+  bottom.move(0);
+  //drive backwards and outtake in long goal
+  chassis.pid_drive_set(-46_in, DRIVE_SPEED);
+  chassis.pid_wait_quick_chain();
+  loader.set(false);
+  bottom.move(127);
+  upper.move(127);
+  pros::delay(1500);
+  upper.move(0);
+  //turn, intake, and drive towards middle blocks
+  chassis.pid_turn_set(180_deg, TURN_SPEED);
+  chassis.pid_wait_quick_chain();
+  upper.move(-70);
+  chassis.pid_drive_set(72_in, DRIVE_SPEED);
+  //turn towards upper middle goal and outtake
+  chassis.pid_turn_set(-45_deg, TURN_SPEED);
+  chassis.pid_wait_quick_chain();
+  chassis.pid_drive_set(19_in, DRIVE_SPEED);
+  chassis.pid_wait();
+  middle.set(true);
+  upper.move(-127);
+  pros::delay(1500);
+  upper.move(-70);
+  middle.set(false);
+  //drive, intake, and turn towards match loader
+  loader.set(true);
+  chassis.pid_drive_set(-49_in, DRIVE_SPEED);
+  chassis.pid_wait();
+  chassis.pid_turn_set(-90_deg, TURN_SPEED);
+  chassis.pid_wait_quick_chain();
+  chassis.pid_drive_set(20_in, DRIVE_SPEED);
+  pros::delay(1000);
+  //drive backwards and outtake in long goal
+  chassis.pid_drive_set(-46_in, DRIVE_SPEED);
+  chassis.pid_wait_quick_chain();
+  upper.move(127);
+  pros::delay(3000);
+  //end
+}
+   
 void autonomous_skills () {
-// start off sideways about 6-7 inches from edge, right side
+// start off sideways about 6 inches from edge, right side
 //drive forwards, turn and drive towards match loader
   chassis.pid_drive_set(31_in, DRIVE_SPEED);
   chassis.pid_wait_quick_chain();
@@ -337,6 +388,29 @@ void swing_auton(){
   chassis.pid_drive_set(-4_in, DRIVE_SPEED);
   chassis.pid_wait_quick_chain();
   intake_upper.move(0);
+}
+
+void hello () {
+  intake_upper.move(127);
+  chassis.pid_swing_set(ez::RIGHT_SWING, 90_deg, SWING_SPEED, 100);
+  chassis.pid_wait_quick_chain();
+  //turn towards goal
+  chassis.pid_turn_set(45_deg, TURN_SPEED);
+  chassis.pid_wait_quick_chain();
+  intake_upper.move(0);
+  chassis.pid_drive_set(15_in, DRIVE_SPEED);
+  chassis.pid_wait_quick_chain();
+  intake_upper.move(-127);
+  //drive back towards loader
+  chassis.pid_drive_set(-40_in, DRIVE_SPEED);
+  chassis.pid_wait_quick_chain();
+  chassis.pid_turn_set(180_deg, TURN_SPEED);
+  chassis.pid_wait_quick_chain();
+  piston1.set(true);
+  piston2.set(true);
+  bottom.move(127);
+  chassis.pid_drive_set(22_in, DRIVE_SPEED);
+  chassis.pid_wait_quick_chain();
 }
 
 void drive_example(){

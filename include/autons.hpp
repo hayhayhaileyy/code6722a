@@ -20,3 +20,4 @@ void new_auto_pidtuning();
 void autonomous_right();
 void autonomous_left();
 void autonomous_skills();
+void right_solo_awp ();

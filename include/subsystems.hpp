@@ -10,9 +10,10 @@ extern Drive chassis;
 // inline pros::Motor intake(1);
 // inline pros::adi::DigitalIn limit_switch('A');
 
-inline pros::Motor bottom(11);
-inline pros::Motor upper(12);
-inline pros::MotorGroup intake_upper({11, 12});
+inline pros::Motor bottom(4);
+inline pros::Motor upper(21);
+inline pros::MotorGroup intake_upper({-10, -4});
+inline pros::MotorGroup intake_lower({10, 4});
 inline ez::Piston loader('A');
 inline ez::Piston middle('B');
 inline ez::Piston descore('C');

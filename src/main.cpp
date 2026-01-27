@@ -8,8 +8,8 @@
 // Chassis constructor
 ez::Drive chassis(
     // These are your drive motors, the first motor is used for sensing!
-    {10, 9, 8},     // Left Chassis Ports (negative port will reverse it!)
-    {1, 2, 3},  // Right Chassis Ports (negative port will reverse it!)
+    {-13, -7, 8},     // Left Chassis Ports (negative port will reverse it!)
+    {15, -18, 12},  // Right Chassis Ports (negative port will reverse it!)
 
     6,      // IMU Port
     3.25,  // Wheel Diameter (Remember, 4" wheels without screw holes are actually 4.125!)
@@ -61,8 +61,7 @@ void initialize() {
 // These are pages connected to the code that run when you are on that specific page, remove unnecassary autonomous commands
 // Replace with your own autonomous functions, make sure to define them in "subsystems.hpp"
     {"autonomous right solo AWP", right_solo_awp},
-    {"autonomous right side", autonomous_right},
-    {"autonomous left side", autonomous_left},
+    {"autonomous right side", safe_right},
     {"autonomous skills", autonomous_skills},
       //{"pidtuning", new_auto_pidtuning},
       //{"Turn\n\nTurn 3 times.", turn_example},
@@ -254,8 +253,8 @@ void opcontrol() {
     ez_template_extras();
    
     // chassis.opcontrol_tank();  // Tank control
-    // chassis.opcontrol_arcade_standard(ez::SPLIT);  // Standard split arcade
-    chassis.opcontrol_arcade_standard(ez::SINGLE);  // Standard single arcade
+    chassis.opcontrol_arcade_standard(ez::SPLIT);  // Standard split arcade
+    // chassis.opcontrol_arcade_standard(ez::SINGLE);  // Standard single arcade
     // chassis.opcontrol_arcade_flipped(ez::SPLIT);    // Flipped split arcade
     // chassis.opcontrol_arcade_flipped(ez::SINGLE);   // Flipped single arcade
 
@@ -266,37 +265,34 @@ void opcontrol() {
 // INTAKE CONTROL
 if (master.get_digital(DIGITAL_R1)) {  
     // R1 = middle goal
-    upper.move(-110);
-    bottom.move(110);
+    upper.move(-127);
+    bottom.move(127);
+    middle.set(true);
 }
 else if (master.get_digital(DIGITAL_R2)) {  
     // R2 = intake blocks
-    bottom.move(110);
+    bottom.move(127);
+    upper.move(80);
 }
 else if (master.get_digital(DIGITAL_L1)) {  
     // L1 = upper goal
-    upper.move(110);
-    bottom.move(110);
+    upper.move(-127);
+    bottom.move(127);
 }
 else if (master.get_digital(DIGITAL_L2)) {  
     // L2 = lower goal
-    upper.move(-110); //outtake
-    bottom.move(-110); //intake 
+    upper.move(127); //outtake
+    bottom.move(-127); //intake 
 }
 else {
     // NOTHING PRESSED → STOP
     upper.move(0);
     bottom.move(0);
+    middle.set(false);
 }
 
-  if (master.get_digital(DIGITAL_A)) { //   extends match loader
-  piston1.set(true);
-  piston2.set(true);
-}
-else if (master.get_digital(DIGITAL_B)) {  // retracts match loader
-  piston1.set(false);
-  piston2.set(false);
-}
+  loader.button_toggle(master.get_digital(DIGITAL_A));
+  descore.button_toggle(master.get_digital(DIGITAL_B));
     pros::delay(ez::util::DELAY_TIME);  // This is used for timer calculations!  Keep this ez::util::DELAY_TIME
   }
 }

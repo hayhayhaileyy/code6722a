@@ -12,8 +12,7 @@ extern Drive chassis;
 
 inline pros::Motor bottom(4);
 inline pros::Motor upper(21);
-inline pros::MotorGroup intake_upper({-10, -4});
-inline pros::MotorGroup intake_lower({10, 4});
+inline pros::MotorGroup intake_upper({-21, -4});
 inline ez::Piston loader('A');
 inline ez::Piston middle('B');
 inline ez::Piston descore('C');

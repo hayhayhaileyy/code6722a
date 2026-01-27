@@ -64,82 +64,107 @@ void new_auto_pidtuning () {
 }
 
 void safe_right () {
-chassis.pid_turn_set(30_deg, TURN_SPEED);
-chassis.pid_wait_quick_chain();
-chassis.pid_turn_set(-30_deg, TURN_SPEED);
+//turn, drive, and intake three blocks
+chassis.pid_turn_set(45_deg, TURN_SPEED);
 chassis.pid_wait_quick_chain();
 chassis.pid_drive_set(12_in, DRIVE_SPEED);
 chassis.pid_wait_quick_chain();
-intake_upper.move(127);
-pros::delay(2);
-intake_upper.move(0);
-//collecting blocks to score in low goal
-chassis.pid_turn_set(-80_deg, TURN_SPEED);
+chassis.pid_turn_set(0_deg, TURN_SPEED);
 chassis.pid_wait_quick_chain();
-chassis.pid_drive_set(15_in, DRIVE_SPEED);
+bottom.move(127);
+upper.move(-70);
+chassis.pid_drive_set(22_in, DRIVE_SPEED);
+chassis.pid_wait_quick_chain();
+// back and forth to intake blocks
+chassis.pid_drive_set(-3_in, DRIVE_SPEED);
+chassis.pid_wait_quick_chain();
+chassis.pid_drive_set(3_in, DRIVE_SPEED);
+chassis.pid_wait_quick_chain();
+//turn and outtake in lower goal
+chassis.pid_turn_set(-45_deg, TURN_SPEED);
+chassis.pid_wait();
+chassis.pid_drive_set(17_in, DRIVE_SPEED);
 chassis.pid_wait_quick_chain();
 intake_upper.move(-127);
-pros::delay(2);
+pros::delay(2000);
 intake_upper.move(0);
-//scoring in low goal
-chassis.pid_drive_set(36_in, DRIVE_SPEED);
-chassis.pid_wait_quick_chain();
-chassis.pid_turn_set(35_deg, TURN_SPEED);
-chassis.pid_wait_quick_chain();
-chassis.pid_drive_set(-24_in, DRIVE_SPEED);
-chassis.pid_wait_quick_chain();
+// back up and turn towards loader
+chassis.pid_drive_set(-42_in, DRIVE_SPEED);
+chassis.pid_wait();
+chassis.pid_turn_set(-180_deg, TURN_SPEED);
+chassis.pid_wait();
 loader.set(true);
-intake_upper.move(127);
-pros::delay(3);
-intake_upper.move(0);
-// collecting blocks from loader
+chassis.pid_drive_set(20_in, DRIVE_SPEED);
+chassis.pid_wait_quick_chain();
+//match load and intake
+bottom.move(127);
+upper.move(-70);
+chassis.pid_drive_set(-2_in, DRIVE_SPEED);
+chassis.pid_wait_quick_chain();
+chassis.pid_drive_set(3_in, DRIVE_SPEED);
+chassis.pid_wait_quick_chain();
+//drive backwards and outtake in long goal
 chassis.pid_drive_set(-48_in, DRIVE_SPEED);
 chassis.pid_wait_quick_chain();
+loader.set(false);
 intake_upper.move(127);
-pros::delay(3);
-intake_upper.move(0);
-// auton ends
+pros::delay(3000);
 }
+
 void safe_left () {
-chassis.pid_turn_set(-30_deg, TURN_SPEED);
-chassis.pid_wait_quick_chain();
-chassis.pid_turn_set(30_deg, TURN_SPEED);
+//turn, drive, and intake three blocks
+chassis.pid_turn_set(-45_deg, TURN_SPEED);
 chassis.pid_wait_quick_chain();
 chassis.pid_drive_set(12_in, DRIVE_SPEED);
 chassis.pid_wait_quick_chain();
+chassis.pid_turn_set(0_deg, TURN_SPEED);
+chassis.pid_wait_quick_chain();
+bottom.move(127);
+upper.move(-70);
+chassis.pid_drive_set(22_in, DRIVE_SPEED);
+chassis.pid_wait_quick_chain();
+// back and forth to intake blocks
+chassis.pid_drive_set(-3_in, DRIVE_SPEED);
+chassis.pid_wait_quick_chain();
+chassis.pid_drive_set(3_in, DRIVE_SPEED);
+chassis.pid_wait_quick_chain();
+bottom.move(0);
+upper.move(0);
+//turn and outtake in middle goal
+chassis.pid_turn_set(-135_deg, TURN_SPEED);
+chassis.pid_wait();
+chassis.pid_drive_set(-17_in, DRIVE_SPEED);
+chassis.pid_wait_quick_chain();
+middle.set(true);
 intake_upper.move(127);
-pros::delay(2);
+pros::delay(2000);
 intake_upper.move(0);
-//collecting blocks to score in low goal
-chassis.pid_turn_set(80_deg, TURN_SPEED);
-chassis.pid_wait_quick_chain();
-chassis.pid_drive_set(15_in, DRIVE_SPEED);
-chassis.pid_wait_quick_chain();
-intake_upper.move(-127);
-pros::delay(2);
-intake_upper.move(0);
-//scoring in low goal
-chassis.pid_drive_set(36_in, DRIVE_SPEED);
-chassis.pid_wait_quick_chain();
-chassis.pid_turn_set(-35_deg, TURN_SPEED);
-chassis.pid_wait_quick_chain();
-chassis.pid_drive_set(-24_in, DRIVE_SPEED);
-chassis.pid_wait_quick_chain();
+middle.set(false);
+// back up and turn towards loader
+chassis.pid_drive_set(42_in, DRIVE_SPEED);
+chassis.pid_wait();
+chassis.pid_turn_set(180_deg, TURN_SPEED);
+chassis.pid_wait();
 loader.set(true);
-intake_upper.move(127);
-pros::delay(3);
-intake_upper.move(0);
-// collecting blocks from loader
-chassis.pid_drive_set(48_in, DRIVE_SPEED);
+chassis.pid_drive_set(20_in, DRIVE_SPEED);
 chassis.pid_wait_quick_chain();
+//match load and intake
+bottom.move(127);
+upper.move(-70);
+chassis.pid_drive_set(-2_in, DRIVE_SPEED);
+chassis.pid_wait_quick_chain();
+chassis.pid_drive_set(3_in, DRIVE_SPEED);
+chassis.pid_wait_quick_chain();
+//drive backwards and outtake in long goal
+chassis.pid_drive_set(-48_in, DRIVE_SPEED);
+chassis.pid_wait_quick_chain();
+loader.set(false);
 intake_upper.move(127);
-pros::delay(3);
-intake_upper.move(0);
-// auton ends
+pros::delay(3000);
 }
 
 void right_solo_awp () {
-  // start sideways above goal, edge of middle tile
+  // start sideways above parking, edge of middle tile
   //drive forward and turn towards match loader
   chassis.pid_drive_set(48_in, DRIVE_SPEED);
   chassis.pid_wait();
@@ -148,7 +173,7 @@ void right_solo_awp () {
   //drive forward and match load
   bottom.move(127);
   loader.set(true);
-  chassis.pid_drive_set(20_in, DRIVE_SPEED);
+  chassis.pid_drive_set(22_in, DRIVE_SPEED);
   pros::delay(1000);
   bottom.move(0);
   //drive backwards and outtake in long goal
@@ -158,29 +183,29 @@ void right_solo_awp () {
   bottom.move(127);
   upper.move(127);
   pros::delay(1500);
-  upper.move(0);
-  //turn, intake, and drive towards middle blocks
-  chassis.pid_turn_set(180_deg, TURN_SPEED);
-  chassis.pid_wait_quick_chain();
   upper.move(-70);
-  chassis.pid_drive_set(72_in, DRIVE_SPEED);
-  //turn towards upper middle goal and outtake
-  chassis.pid_turn_set(-45_deg, TURN_SPEED);
+  //turn, intake, and drive towards middle blocks
+  chassis.pid_turn_set(-90_deg, TURN_SPEED);
   chassis.pid_wait_quick_chain();
-  chassis.pid_drive_set(19_in, DRIVE_SPEED);
+  chassis.pid_drive_set(72_in, DRIVE_SPEED);
+  chassis.pid_wait_quick_chain();
+  //turn towards upper middle goal and outtake
+  chassis.pid_turn_set(-135_deg, TURN_SPEED);
   chassis.pid_wait();
+  chassis.pid_drive_set(-19_in, DRIVE_SPEED);
+  chassis.pid_wait_quick_chain();
   middle.set(true);
-  upper.move(-127);
+  upper.move(127);
   pros::delay(1500);
   upper.move(-70);
   middle.set(false);
   //drive, intake, and turn towards match loader
   loader.set(true);
-  chassis.pid_drive_set(-49_in, DRIVE_SPEED);
+  chassis.pid_drive_set(49_in, DRIVE_SPEED);
   chassis.pid_wait();
-  chassis.pid_turn_set(-90_deg, TURN_SPEED);
+  chassis.pid_turn_set(-180_deg, TURN_SPEED);
   chassis.pid_wait_quick_chain();
-  chassis.pid_drive_set(20_in, DRIVE_SPEED);
+  chassis.pid_drive_set(22_in, DRIVE_SPEED);
   pros::delay(1000);
   //drive backwards and outtake in long goal
   chassis.pid_drive_set(-46_in, DRIVE_SPEED);
@@ -191,39 +216,29 @@ void right_solo_awp () {
 }
    
 void autonomous_skills () {
-// start off sideways about 6 inches from edge, right side
+// start atop of park zone, edge of middle tile
 //drive forwards, turn and drive towards match loader
-  chassis.pid_drive_set(31_in, DRIVE_SPEED);
-  chassis.pid_wait_quick_chain();
+  chassis.pid_drive_set(48_in, DRIVE_SPEED);
+  chassis.pid_wait();
   chassis.pid_turn_set(90_deg, TURN_SPEED);
-  chassis.pid_wait_quick_chain();
-  chassis.pid_drive_set(9_in, DRIVE_SPEED);
+  chassis.pid_wait();
+  loader.set(true);
+  chassis.pid_drive_set(21_in, DRIVE_SPEED);
   chassis.pid_wait_quick_chain();
 // match load, turn around towards long goal
   bottom.move(127);
-  loader.set(false);
+  upper.move(-70);
   chassis.pid_drive_set(-2_in, DRIVE_SPEED);
   chassis.pid_wait_quick_chain();
   chassis.pid_drive_set(3_in, DRIVE_SPEED);
   pros::delay(1000);
-  chassis.pid_drive_set(-9_in, DRIVE_SPEED);
+  // drive towards goal and outtake
+  chassis.pid_drive_set(-46_in, DRIVE_SPEED);
   chassis.pid_wait_quick_chain();
   loader.set(false);
-  bottom.move(0);
-// turn around, drive towards goal, outtake
-  chassis.pid_turn_set(-90_deg, TURN_SPEED);
-  chassis.pid_wait_quick_chain();
-  chassis.pid_drive_set(15_in, DRIVE_SPEED);
   intake_upper.move(127);
-  pros::delay(1000);
-  chassis.pid_drive_set(-2_in, DRIVE_SPEED);
-  chassis.pid_wait_quick_chain();
-  chassis.pid_drive_set(3_in, DRIVE_SPEED);
-  pros::delay(1000);
-  chassis.pid_drive_set(2_in, DRIVE_SPEED);
-  chassis.pid_wait_quick_chain();
+  pros::delay(2000);
   intake_upper.move(0);
-  pros::delay(1000);
 //drive and turn towards middle blocks
   chassis.pid_drive_set(-16_in, DRIVE_SPEED);
   chassis.pid_wait_quick_chain();

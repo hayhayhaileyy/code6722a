@@ -60,8 +60,9 @@ void initialize() {
   ez::as::auton_selector.autons_add({
 // These are pages connected to the code that run when you are on that specific page, remove unnecassary autonomous commands
 // Replace with your own autonomous functions, make sure to define them in "subsystems.hpp"
-    {"autonomous right solo AWP", right_solo_awp},
     {"autonomous right side", safe_right},
+    {"autonomous left side", safe_left},
+    {"autonomous right solo AWP", right_solo_awp},
     {"autonomous skills", autonomous_skills},
       //{"pidtuning", new_auto_pidtuning},
       //{"Turn\n\nTurn 3 times.", turn_example},

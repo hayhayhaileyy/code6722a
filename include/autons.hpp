@@ -18,5 +18,6 @@ void odom_boomerang_injected_pure_pursuit_example();
 void measure_offsets();
 void new_auto_pidtuning();
 void safe_right();
+void safe_left();
 void autonomous_skills();
-void right_solo_awp ();
+void right_solo_awp();
